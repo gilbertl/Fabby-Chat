@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, Login!</string>
+    
     <string name="app_name">Fabby Chat</string>
+    <string name="connect_facebook">Login to Facebook</string>
+    <string name="fb_application_id">118419214873353</string>
 </resources>
