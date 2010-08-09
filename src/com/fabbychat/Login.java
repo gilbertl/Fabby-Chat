@@ -1,4 +1,4 @@
-package com.gilbertl.fabbychat;
+package com.fabbychat;
 
 import android.app.Activity;
 import android.os.Bundle;
