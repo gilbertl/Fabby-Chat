@@ -9,11 +9,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Button;
 
-import com.fabbychat.sasl.SASLFacebookMechanism;
 import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
 import com.facebook.android.FacebookError;
@@ -22,7 +21,7 @@ import com.facebook.android.Facebook.DialogListener;
 public class Login extends Activity {
 	
 	private static final String 
-		TAG = "LoginButton",
+		TAG = "Login",
 		FB_APP_ID = "118419214873353",
 		FB_API_KEY = "33f89f44264edd92c78a91552e4f874b",
 		FB_APP_SECRET = "92785de812ae2019007df12e2f638d3b";
@@ -31,6 +30,11 @@ public class Login extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+    
+    @Override
+    public void onStart() {
+    	super.onStart();
         Facebook fb = new Facebook();
         // open Facebook login dialog
 		fb.authorize(this, FB_APP_ID,
@@ -48,19 +52,8 @@ public class Login extends Activity {
     	
     	// make XMPP connection
         public void onComplete(Bundle values) {
-        	// register Facebook SASL mechanism
-        	SASLAuthentication.registerSASLMechanism(
-        		SASLFacebookMechanism.NAME,
-                SASLFacebookMechanism.class);
-        	SASLAuthentication.supportSASLMechanism(
-        		SASLFacebookMechanism.NAME, 0);
-
-        	// create a connection
-        	ConnectionConfiguration config = 
-        		new ConnectionConfiguration("chat.facebook.com", 5222);
-            XMPPConnection xmppConnection = new XMPPConnection(config);
-            // by default, reconnection is allowed; is this okay?
-
+        	XMPPConnection xmppConnection = ChatConnection.getConnection();
+        	assert !xmppConnection.isConnected();
             try {
             	xmppConnection.connect();
             } catch (XMPPException e) {
@@ -79,6 +72,7 @@ public class Login extends Activity {
                 Log.e(TAG, "Exception occured while logging in", e);
                 return;
             }
+            startActivity(new Intent(mContext, Contacts.class));
         }
    
         public void onFacebookError(FacebookError e) {

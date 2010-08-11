@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Fabby Chat</string>
+    <string name="login_label">Login to Facebook</string>
+    <string name="contacts_label">Contacts</string>
 </resources>
