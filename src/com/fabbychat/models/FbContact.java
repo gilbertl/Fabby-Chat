@@ -2,15 +2,22 @@ package com.fabbychat.models;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Comparator;
 
 import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.packet.Presence;
 
 public class FbContact {
 	
+	public static Comparator<FbContact> 
+	NAME_COMPARATOR = new Comparator<FbContact>() {
+		public int compare(FbContact obj1, FbContact obj2) {
+			return obj1.getName().compareTo(obj2.getName());
+		}
+	};
+	
 	private static String TAG = "FbContact",
 						  GRAPH_API = "http://graph.facebook.com/";
-
 	
 	private String jid,
 				   name,

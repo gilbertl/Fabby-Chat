@@ -16,6 +16,9 @@
 	
 	    <activity android:name="Contacts"
 	              android:label="@string/contacts_label" />
+	              
+	    <activity android:name="ChatDialog"
+            android:label="@string/chat_dialogs" />
 </application>
 
 

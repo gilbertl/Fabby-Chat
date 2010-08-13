@@ -11,7 +11,6 @@ import org.jivesoftware.smack.packet.Presence;
 
 import android.app.ListActivity;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.fabbychat.adapters.FbContactAdapter;
 import com.fabbychat.models.FbContact;
@@ -30,18 +29,17 @@ public class Contacts extends ListActivity {
 		super.onCreate(savedInstanceState);
 	  
 		// initialize vars
-		conn = ChatConnection.getConnection();
+		conn = FbChatConnection.getConnection();
 		roster = conn.getRoster();
 	  
 		Collection<RosterEntry> rosterEntries = roster.getEntries();
-		// filter unavailable
 		rosterEntries = 
 			Collections2.filter(rosterEntries, new Predicate<RosterEntry>() {
 				public boolean apply(RosterEntry re) {
 					return roster.getPresence(re.getUser()).isAvailable();
 				}
 			});
-		// get their names
+		// transform roster entries
 		ArrayList<FbContact> contacts = new ArrayList<FbContact>(
 			Collections2.transform(rosterEntries, 
 				new Function<RosterEntry, FbContact>() {
@@ -50,11 +48,10 @@ public class Contacts extends ListActivity {
 						new FbContact(re, roster.getPresence(re.getUser()));
 					}
 				}));
-		// TODO: sort names
-	
 
-		setListAdapter(new FbContactAdapter(this,
-			R.layout.fb_contact_row, contacts));
+		FbContactAdapter adapter = new FbContactAdapter(this, 
+			R.layout.fb_contact_row, contacts, FbContact.NAME_COMPARATOR);
+		setListAdapter(adapter);
 		
 		roster.addRosterListener(new ContactsListener());
 	}

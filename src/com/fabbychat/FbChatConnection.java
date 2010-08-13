@@ -7,7 +7,7 @@ import org.jivesoftware.smack.XMPPConnection;
 import com.fabbychat.sasl.SASLFacebookMechanism;
 
 
-public class ChatConnection {
+public class FbChatConnection {
 	
 	private static XMPPConnection conn;
 	

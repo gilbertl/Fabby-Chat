@@ -52,7 +52,7 @@ public class Login extends Activity {
     	
     	// make XMPP connection
         public void onComplete(Bundle values) {
-        	XMPPConnection xmppConnection = ChatConnection.getConnection();
+        	XMPPConnection xmppConnection = FbChatConnection.getConnection();
         	assert !xmppConnection.isConnected();
             try {
             	xmppConnection.connect();
@@ -72,7 +72,8 @@ public class Login extends Activity {
                 Log.e(TAG, "Exception occured while logging in", e);
                 return;
             }
-            startActivity(new Intent(mContext, Contacts.class));
+            startActivity(new Intent(mContext, ChatDialog.class));
+            //startActivity(new Intent(mContext, Contacts.class));
         }
    
         public void onFacebookError(FacebookError e) {
