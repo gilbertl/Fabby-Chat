@@ -1,7 +1,5 @@
 package com.fabbychat;
 
-import org.jivesoftware.smack.ConnectionConfiguration;
-import org.jivesoftware.smack.SASLAuthentication;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 
@@ -72,8 +70,7 @@ public class Login extends Activity {
                 Log.e(TAG, "Exception occured while logging in", e);
                 return;
             }
-            startActivity(new Intent(mContext, ChatDialog.class));
-            //startActivity(new Intent(mContext, Contacts.class));
+            startActivity(new Intent(mContext, ChatDialogs.class));;
         }
    
         public void onFacebookError(FacebookError e) {

@@ -9,8 +9,12 @@ import org.jivesoftware.smack.RosterListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.packet.Presence;
 
+import android.app.Activity;
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ListView;
 
 import com.fabbychat.adapters.FbContactAdapter;
 import com.fabbychat.models.FbContact;
@@ -20,6 +24,8 @@ import com.google.common.collect.Collections2;
 
 public class Contacts extends ListActivity {
 	public static final String TAG = "Contacts";
+	public static final String FB_CONTACT_PARAM = 
+		"com.fabbychat.Contacts.fb_contact";
 	
 	private XMPPConnection conn;
 	private Roster roster;
@@ -45,7 +51,7 @@ public class Contacts extends ListActivity {
 				new Function<RosterEntry, FbContact>() {
 					public FbContact apply(RosterEntry re) {
 						return 
-						new FbContact(re, roster.getPresence(re.getUser()));
+						new FbContact(re);
 					}
 				}));
 
@@ -54,6 +60,15 @@ public class Contacts extends ListActivity {
 		setListAdapter(adapter);
 		
 		roster.addRosterListener(new ContactsListener());
+	}
+	
+	@Override
+	protected void onListItemClick (ListView lv, View v, int pos, long id) {
+		Intent resultIntent = new Intent();
+		FbContact contact = (FbContact) lv.getItemAtPosition(pos);
+		resultIntent.putExtra(FB_CONTACT_PARAM, contact);
+		setResult(Activity.RESULT_OK, resultIntent);
+		finish();
 	}
 	
 	private class ContactsListener implements RosterListener {

@@ -41,7 +41,16 @@ public class DrawableManager {
 
     private final Map<String, Drawable> drawableMap;
 
-    public DrawableManager() {
+    private static DrawableManager instance;
+    
+    public static DrawableManager getInstance() {
+    	if (instance == null) {
+    		instance = new DrawableManager();
+    	}
+    	return instance;
+    }
+    
+    private DrawableManager() {
     	drawableMap = new HashMap<String, Drawable>();
     }
 

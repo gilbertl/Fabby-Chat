@@ -1,13 +1,13 @@
 package com.fabbychat.models;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Comparator;
 
 import org.jivesoftware.smack.RosterEntry;
-import org.jivesoftware.smack.packet.Presence;
 
-public class FbContact {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class FbContact implements Parcelable {
 	
 	public static Comparator<FbContact> 
 	NAME_COMPARATOR = new Comparator<FbContact>() {
@@ -19,18 +19,28 @@ public class FbContact {
 	private static String TAG = "FbContact",
 						  GRAPH_API = "http://graph.facebook.com/";
 	
+	// fields
 	private String jid,
 				   name,
 				   uid;
-	private Presence presence;
 	
-	public FbContact(RosterEntry re, Presence p) {
-		jid = re.getUser();
-		name = re.getName();
-		uid = extractUID(jid);
-		presence = p;
+	// constructors and initializers
+	public FbContact(RosterEntry re) {
+		String jid = re.getUser();
+		init(re.getName(), jid);
+	}
+	 
+    public FbContact(Parcel in) {
+    	readFromParcel(in);
+    }
+    
+	private void init(String name, String jid) {
+		this.jid = jid;
+		this.name = name;
+		this.uid = extractUID(jid);
 	}
 	
+	// getters and setters
 	public String getPicURL() {
 		return String.format("%s/%s/picture?type=square", GRAPH_API, uid);
 	}
@@ -54,17 +64,37 @@ public class FbContact {
 		this.uid = username;
 	}
 	
-	public Presence getPresence() {
-		return presence;
-	}
-	public void setPresence(Presence presence) {
-		this.presence = presence;
-	}
-	
+	// helpers
 	private String extractUID(String jid) {
 		// jids are in the form of -123412341234@chat.facebook.com
 		return jid.substring(1, jid.indexOf('@'));
 	}
-	
+
+	// parcelable implementation
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+    	dest.writeString(name);
+    	dest.writeString(jid);
+    }
+    
+    public void readFromParcel(Parcel in) {
+    	init(in.readString(), in.readString());
+    }
+ 
+    public static final Parcelable.Creator<FbContact> CREATOR =
+    	new Parcelable.Creator<FbContact>() {
+	        public FbContact createFromParcel(Parcel in) {
+	            return new FbContact(in);
+	        }
+	 
+	        public FbContact[] newArray(int size) {
+	            return new FbContact[size];
+	        }
+    };
+ 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
 }

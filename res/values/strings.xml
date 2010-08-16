@@ -4,5 +4,4 @@
     <string name="login_label">Login to Facebook</string>
     <string name="contacts_label">Contacts</string>
     <string name="send_msg">Send</string>
-    <string name="chat_dialogs">Conversations</string>
 </resources>
