@@ -21,10 +21,9 @@ public class FbContactAdapter extends ArrayAdapter<FbContact> {
 	
 	private Comparator<FbContact> mComp;
 
-    public FbContactAdapter(Context context, int textViewResourceId, 
-    		ArrayList<FbContact> contacts,
+    public FbContactAdapter(Context context, ArrayList<FbContact> contacts,
     		Comparator<FbContact> comp) {
-            super(context, textViewResourceId, contacts);
+            super(context, android.R.layout.simple_list_item_1, contacts);
             mComp = comp;
             super.sort(mComp);
     }
