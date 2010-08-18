@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/profile_pic"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:src="@drawable/default_fb_avatar" />
+    android:background="@color/fb_blue"
+    android:padding="3dp">
+    
+    <LinearLayout
+        android:id="@+id/dialog_tab_border"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dialog_tab_border"
+        android:padding="3dp">
+		<ImageView
+		    android:id="@+id/profile_pic"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:src="@drawable/default_fb_avatar" />
+    </LinearLayout>
+</LinearLayout>
 

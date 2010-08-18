@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color
+        name="fb_blue"
+        >#3B5998</color>
+    <color
+        name="fb_light_blue"
+        >#778DB9</color>
+    <color
+        name="fb_red"
+        >#F35238</color>
+</resources>

@@ -7,11 +7,12 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="5dp">
+        android:background="#FFFFFFFF">
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@color/fb_blue">
             <Button
                 android:id="@+id/add_tab_button"
                 android:layout_width="wrap_content"

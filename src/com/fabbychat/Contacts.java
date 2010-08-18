@@ -50,8 +50,7 @@ public class Contacts extends ListActivity {
 			Collections2.transform(rosterEntries, 
 				new Function<RosterEntry, FbContact>() {
 					public FbContact apply(RosterEntry re) {
-						return 
-						new FbContact(re);
+						return new FbContact(re);
 					}
 				}));
 

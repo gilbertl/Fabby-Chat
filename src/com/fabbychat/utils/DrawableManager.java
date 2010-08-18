@@ -98,13 +98,16 @@ public class DrawableManager {
     		public void run() {
     			//TODO : set imageView to a "pending" image
     			Drawable drawable = fetchDrawable(urlString);
-    			Message message = handler.obtainMessage(1, drawable);
-    			handler.sendMessage(message);
+    			if (drawable != null) {
+	    			Message message = handler.obtainMessage(1, drawable);
+	    			handler.sendMessage(message);
+    			}
     		}
     	};
     	thread.start();
     }
 
+    // TODo: try this? http://stackoverflow.com/questions/3293659/android-java-net-unknownhostexception-host-is-unresolved-strategy-question
     private InputStream 
     fetch(String urlString) throws MalformedURLException, IOException {
     	DefaultHttpClient httpClient = new DefaultHttpClient();
