@@ -24,6 +24,7 @@ package com.fabbychat.utils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,6 +40,7 @@ import android.widget.ImageView;
 
 public class DrawableManager {
 
+	private final static String TAG = URLDrawableProducer.class.getName();
     private final Map<String, Drawable> drawableMap;
 
     private static DrawableManager instance;
@@ -54,36 +56,24 @@ public class DrawableManager {
     	drawableMap = new HashMap<String, Drawable>();
     }
 
-    public Drawable fetchDrawable(String urlString) {
-    	if (drawableMap.containsKey(urlString)) {
-    		return drawableMap.get(urlString);
+    public Drawable fetchDrawable(DrawableProducer dp) {
+    	String key = dp.getKey();
+    	if (drawableMap.containsKey(key)) {
+    		return drawableMap.get(key);
     	}
+    	
+    	Drawable d = dp.getDrawable();
+    	drawableMap.put(key, d);
 
-    	Log.d(this.getClass().getSimpleName(), "image url:" + urlString);
-    	try {
-    		InputStream is = fetch(urlString);
-    		Drawable drawable = Drawable.createFromStream(is, "src");
-    		drawableMap.put(urlString, drawable);
-    		Log.d(this.getClass().getSimpleName(), "got a thumbnail drawable: " 
-    				+ drawable.getBounds() + ", "
-    				+ drawable.getIntrinsicHeight() + "," 
-    				+ drawable.getIntrinsicWidth() + ", "
-    				+ drawable.getMinimumHeight() + "," 
-    				+ drawable.getMinimumWidth());
-    		return drawable;
-    	} catch (MalformedURLException e) {
-    		Log.e(this.getClass().getSimpleName(), "fetchDrawable failed", e);
-    		return null;
-    	} catch (IOException e) {
-    		Log.e(this.getClass().getSimpleName(), "fetchDrawable failed", e);
-    		return null;
-    	}
+    	return d;
     }
 
-    public void 
-    fetchDrawableOnThread(final String urlString, final ImageView imageView) {
-    	if (drawableMap.containsKey(urlString)) {
-    		imageView.setImageDrawable(drawableMap.get(urlString));
+    public void fetchDrawableOnThread(final DrawableProducer dp, 
+    	final ImageView imageView) {
+    	
+    	String key = dp.getKey();
+    	if (drawableMap.containsKey(key)) {
+    		imageView.setImageDrawable(drawableMap.get(key));
     	}
 
     	final Handler handler = new Handler() {
@@ -97,7 +87,7 @@ public class DrawableManager {
     		@Override
     		public void run() {
     			//TODO : set imageView to a "pending" image
-    			Drawable drawable = fetchDrawable(urlString);
+    			Drawable drawable = fetchDrawable(dp);
     			if (drawable != null) {
 	    			Message message = handler.obtainMessage(1, drawable);
 	    			handler.sendMessage(message);
@@ -105,14 +95,5 @@ public class DrawableManager {
     		}
     	};
     	thread.start();
-    }
-
-    // TODo: try this? http://stackoverflow.com/questions/3293659/android-java-net-unknownhostexception-host-is-unresolved-strategy-question
-    private InputStream 
-    fetch(String urlString) throws MalformedURLException, IOException {
-    	DefaultHttpClient httpClient = new DefaultHttpClient();
-    	HttpGet request = new HttpGet(urlString);
-    	HttpResponse response = httpClient.execute(request);
-    	return response.getEntity().getContent();
     }
 }

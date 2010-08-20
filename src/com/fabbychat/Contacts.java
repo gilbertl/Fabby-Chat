@@ -55,7 +55,7 @@ public class Contacts extends ListActivity {
 				}));
 
 		FbContactAdapter adapter = new FbContactAdapter(this, contacts, 
-			FbContact.NAME_COMPARATOR);
+			FbContact.NAME_COMPARATOR, conn);
 		setListAdapter(adapter);
 		
 		roster.addRosterListener(new ContactsListener());

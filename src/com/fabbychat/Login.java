@@ -51,7 +51,6 @@ public class Login extends Activity {
     	// make XMPP connection
         public void onComplete(Bundle values) {
         	XMPPConnection xmppConnection = FbChatConnection.getConnection();
-        	assert !xmppConnection.isConnected();
             try {
             	xmppConnection.connect();
             } catch (XMPPException e) {

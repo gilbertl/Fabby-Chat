@@ -40,28 +40,16 @@ public class FbContact implements Parcelable {
 		this.uid = extractUID(jid);
 	}
 	
-	// getters and setters
-	public String getPicURL() {
-		return String.format("%s/%s/picture?type=square", GRAPH_API, uid);
-	}
-	
 	public String getJid() {
 		return jid;
 	}
-	public void setJid(String jid) {
-		this.jid = jid;
-	}
+	
 	public String getName() {
 		return name;
 	}
-	public void setName(String name) {
-		this.name = name;
-	}
+
 	public String getUsername() {
 		return uid;
-	}
-	public void setUsername(String username) {
-		this.uid = username;
 	}
 	
 	// helpers

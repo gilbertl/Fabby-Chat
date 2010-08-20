@@ -3,6 +3,8 @@ package com.fabbychat.adapters;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import org.jivesoftware.smack.XMPPConnection;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.fabbychat.FbAvatarProducer;
+import com.fabbychat.FbChatConnection;
 import com.fabbychat.R;
 import com.fabbychat.models.FbContact;
 import com.fabbychat.utils.DrawableManager;
@@ -20,12 +24,14 @@ public class FbContactAdapter extends ArrayAdapter<FbContact> {
 	private static String TAG = "FbContactAdapter";
 	
 	private Comparator<FbContact> mComp;
-
+	private XMPPConnection mConn;
+	
     public FbContactAdapter(Context context, ArrayList<FbContact> contacts,
-    		Comparator<FbContact> comp) {
+    		Comparator<FbContact> comp, XMPPConnection conn) {
             super(context, android.R.layout.simple_list_item_1, contacts);
             mComp = comp;
             super.sort(mComp);
+            mConn = conn;
     }
     
     @Override
@@ -58,10 +64,13 @@ public class FbContactAdapter extends ArrayAdapter<FbContact> {
             ImageView imageView = (ImageView) 
             	v.findViewById(R.id.profile_pic);
             if (imageView != null) {
-            	DrawableManager.getInstance().fetchDrawableOnThread(
-            		contact.getPicURL(), imageView);
+            	FbAvatarProducer dp = new FbAvatarProducer(
+        				FbChatConnection.getConnection(), contact.getJid());
+        		DrawableManager.getInstance().
+        			fetchDrawableOnThread(dp, imageView);
             }
         }
         return v;
     }
+
 }
