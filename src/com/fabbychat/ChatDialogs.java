@@ -1,14 +1,9 @@
 package com.fabbychat;
 
-import java.io.ByteArrayInputStream;
-
-import org.jivesoftware.smack.XMPPConnection;
-
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +12,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
-import android.widget.TabWidget;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
 
@@ -56,6 +50,7 @@ public class ChatDialogs extends TabActivity {
 			LinearLayout ll;
 			Resources res = getResources();
 			
+			// remove color of prev tab
 			int currTabIndex = getTabHost().getCurrentTab();
 			if (prevTabIndex >= 0 && prevTabIndex != currTabIndex) {
 				View prevTabView = 
@@ -65,6 +60,7 @@ public class ChatDialogs extends TabActivity {
 				ll.setBackgroundDrawable(
 					res.getDrawable(R.drawable.dialog_tab_border));
 			}
+			// add color to current tab
 			prevTabIndex = currTabIndex;
 			View currTabView = getTabHost().getCurrentTabView();
 			ll = (LinearLayout) 
@@ -105,7 +101,8 @@ public class ChatDialogs extends TabActivity {
 		ImageView imageView = (ImageView) v.findViewById(R.id.profile_pic);
 		if (imageView != null) {
 			FbAvatarProducer dp = new FbAvatarProducer(
-				FbChatConnection.getConnection(), contact.getJid());
+				FbChatConnection.getConnection(), contact.getJid(),
+				getResources());
 			DrawableManager.getInstance().fetchDrawableOnThread(dp, imageView);
 		}
 		return v;

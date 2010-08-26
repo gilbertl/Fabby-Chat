@@ -73,7 +73,11 @@ public class DrawableManager {
     	
     	String key = dp.getKey();
     	if (drawableMap.containsKey(key)) {
-    		imageView.setImageDrawable(drawableMap.get(key));
+    		Drawable d = drawableMap.get(key);
+    		if (d != null) {
+    			imageView.setImageDrawable(drawableMap.get(key));
+    		}
+    		return;
     	}
 
     	final Handler handler = new Handler() {

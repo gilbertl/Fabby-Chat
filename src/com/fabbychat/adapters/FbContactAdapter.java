@@ -6,6 +6,7 @@ import java.util.Comparator;
 import org.jivesoftware.smack.XMPPConnection;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +66,8 @@ public class FbContactAdapter extends ArrayAdapter<FbContact> {
             	v.findViewById(R.id.profile_pic);
             if (imageView != null) {
             	FbAvatarProducer dp = new FbAvatarProducer(
-        				FbChatConnection.getConnection(), contact.getJid());
+        			FbChatConnection.getConnection(), contact.getJid(),
+        			getContext().getResources());
         		DrawableManager.getInstance().
         			fetchDrawableOnThread(dp, imageView);
             }
