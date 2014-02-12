@@ -32,9 +32,9 @@ public class Login extends Activity {
     @Override
     public void onStart() {
     	super.onStart();
-        Facebook fb = new Facebook();
+        Facebook fb = new Facebook(FB_APP_ID);
         // open Facebook login dialog
-		fb.authorize(this, FB_APP_ID,
+		fb.authorize(this,
 			new String[] { "xmpp_login", "offline_access" }, 
 			new LoginDialogListener());
     }
